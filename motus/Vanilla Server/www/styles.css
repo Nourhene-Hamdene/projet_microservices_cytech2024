@@ -1,0 +1,48 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center; /* Centrer horizontalement */
+    align-items: center; /* Centrer verticalement */
+    height: 100vh; /* Hauteur de la vue */
+    margin: 0; /* Supprimer les marges par défaut */
+}
+
+.container {
+    text-align: center; /* Centrer le texte à l'intérieur */
+}
+
+form {
+    margin-bottom: 20px;
+}
+
+input[type="text"] {
+    padding: 8px;
+    font-size: 16px;
+}
+
+button {
+    padding: 8px 16px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#result span {
+    padding: 4px;
+}
+#keyboard {
+    display: block;
+    margin-top: 20px;
+}
+
+.row {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.key {
+    display: inline-block;
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-right: 10px;
+}
