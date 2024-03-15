@@ -29,26 +29,29 @@ function generateAccessToken(user) {
   });
 }
 
-// Les routes restent les mêmes, mais la logique de stockage change
-
 app.get("/authorize", (req, res) => {
   res.sendFile(path.join(__dirname, "www/login.html"));
 });
 
 app.post("/authorize", async (req, res) => {
   try {
-    const username = req.body.username;
-    const password = req.body.password;
+    const { username, password } = req.body;
 
-    // Récupérer l'utilisateur de Redis
-    const user = await redisClient.hGetAll(username);
-    if (Object.keys(user).length !== 0 && user.password === password) {
-      const access_token = generateAccessToken({ username: username });
-      console.log(access_token);
-      console.log(req.query.redirect_uri);
-      res.status(302).redirect(req.query.redirect_uri + "?token=" + access_token);
+    // Correction : Utiliser une clé structurée pour Redis
+    const userKey = `user:${username}`;
+    const userData = await redisClient.hGetAll(userKey);
+    
+    if (Object.keys(userData).length === 0) {
+      return res.status(401).send("Invalid username or password");
+    }
+
+    const match = await bcrypt.compare(password, userData.password);
+    if (match) {
+      const access_token = generateAccessToken({ username });
+      // Assurez-vous que redirect_uri est correctement géré sur le client
+      res.status(302).redirect(`${req.query.redirect_uri}?token=${access_token}`);
     } else {
-      res.send("Invalid username or password");
+      res.status(401).send("Invalid username or password");
     }
   } catch (error) {
     console.error(error);
@@ -62,28 +65,25 @@ app.get("/register", (req, res) => {
 
 app.post("/register", async (req, res) => {
   try {
-    const username = req.body.username;
-    const userExists = await redisClient.exists(username);
+    const { username, password, password2, firstname, lastname } = req.body;
+    if (password !== password2) {
+      return res.status(400).json({ error: "Passwords do not match" });
+    }
+
+    const userKey = `user:${username}`;
+    const userExists = await redisClient.exists(userKey);
 
     if (userExists) {
-      res.status(409).json({ error: "Username already exists" });
-      return;
+      return res.status(409).json({ error: "Username already exists" });
     }
 
-    if (req.body.password !== req.body.password2) {
-      res.status(400).json({ error: "Passwords do not match" });
-      return;
-    }
+    const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Hash the password before storing it
-    const hashedPassword = await bcrypt.hash(req.body.password, 10);
-
-    await redisClient.hSet(username, {
-      firstname: req.body.firstname,
-      lastname: req.body.lastname,
+    await redisClient.hSet(userKey, {
+      firstname,
+      lastname,
       password: hashedPassword,
     });
-
 
     console.log(`User ${username} registered successfully.`);
     var urlconnexion = `${req.protocol}://${req.get("host")}/authorize?client_id=${req.query["client_id"]}&scope=${req.query["scope"]}&redirect_uri=${req.query["redirect_uri"]}`;
