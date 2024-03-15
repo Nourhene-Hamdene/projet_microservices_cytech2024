@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        form {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            margin: 0 0 20px 0;
+        }
+        .input-field {
+            margin-bottom: 20px;
+        }
+        input[type="text"],
+        input[type="password"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            box-sizing: border-box;
+        }
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 3px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        a {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: #007bff;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <form method="post">
+        <h2>Login</h2>
+        <div class="input-field">
+            <input type="text" name="username" id="username" placeholder="Enter Username" required />
+        </div>
+        <div class="input-field">
+            <input type="password" name="password" id="password" placeholder="Enter Password" required />
+        </div>
+        <input type="submit" value="LogIn" />
+    </form>
+    <script>
+        var a = document.createElement("a");
+        var linkText = document.createTextNode("Cliquez ici pour s'inscrire");
+        a.appendChild(linkText);
+        a.title = "Cliquez ici pour s'inscrire";
+        var url = window.location.href;
+        var query = window.location.search;
+        if (url.includes(query)) {
+            a.href = "http://localhost:" + window.location.port + "/register" + query;
+        } else {
+            a.href = "http://localhost:" + window.location.port + "/register";
+        }
+        document.body.appendChild(a);
+    </script>
+</body>
+</html>

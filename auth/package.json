@@ -1,26 +1,34 @@
 {
-  "dependencies": {
-    "@google-cloud/firestore": "^7.3.1",
-    "body-parser": "^1.20.2",
-    "cookie-parser": "^1.4.6",
-    "cors": "^2.8.5",
-    "dotenv": "^16.4.5",
-    "express": "^4.18.3",
-    "express-session": "^1.18.0",
-    "firebase": "^8.10.1",
-    "firebase-admin": "^12.0.0",
-    "mongodb": "^6.4.0",
-    "mongoose": "^8.2.1",
-    "store2": "^2.14.3"
-  },
   "name": "auth",
   "version": "1.0.0",
+  "description": "the authentification for motus app",
   "main": "index.js",
-  "type": "commonjs",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js",
+    "debug": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/Victor2103/MicroServices.git"
   },
   "author": "",
   "license": "ISC",
-  "description": ""
+  "bugs": {
+    "url": "https://github.com/Victor2103/MicroServices/issues"
+  },
+  "homepage": "https://github.com/Victor2103/MicroServices#readme",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "cookie-parser": "^1.4.6",
+    "cookie-session": "^2.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.18.3",
+    "express-session": "^1.17.3",
+    "jsonwebtoken": "^8.5.1",
+    "nodemon": "^2.0.20",
+    "redis": "^4.6.13",
+    "store2": "^2.14.2"
+  },
+  "keywords": []
 }
